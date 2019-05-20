@@ -1,11 +1,3 @@
-<https://aws-amplify.github.io/docs/>
-
-<https://aws-amplify.github.io/docs/js/start?platform=react>
-
-<https://code.tutsplus.com/tutorials/how-to-build-serverless-web-applications-with-react-aws-amplify--cms-31732>
-
-<https://blog.usejournal.com/serverless-react-web-app-with-aws-amplify-part-one-414e9402d92a>
-
 ### Install the CLI
 
 ```bash
