@@ -166,3 +166,45 @@ $ amplify add auth
 $ amplify push
 ```
 
+* **Are you sure you want to continue?**
+  * **Yes** 입력
+
+
+
+### Adding Authentication to the React App
+
+* **src/index.js** 수정
+
+  ```react
+  import Amplify from 'aws-amplify'
+  import config from './aws-exports'
+  Amplify.configure(config)
+  ```
+
+  
+
+* **src/App.js** 수정
+
+  ```react
+  //파일의 맨 위에 추가
+  import { withAuthenticator } from 'aws-amplify-react'
+  
+  //파일의 맨 밑 줄 대체
+  export default withAuthenticator(App)
+  ```
+
+
+
+### 앱 실행
+
+```bash
+// Build Command
+$ npm run-script build
+// Start Command
+$ npm run-script start
+```
+
+
+
+![](./img/19.png)
+
