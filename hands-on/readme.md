@@ -141,7 +141,7 @@ $ amplify congifure
   ![](./img/18.png)
   
 
-* **? Do you want to use an AWS profile? ** (Y/n)를 물으면 **Y** 입력 후 엔터
+* **? Do you want to use an AWS profile?** (Y/n)를 물으면 **Y** 입력 후 엔터
 
 * **ausg-amplify** 선택
 
