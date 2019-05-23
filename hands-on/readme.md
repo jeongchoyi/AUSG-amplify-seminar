@@ -208,3 +208,121 @@ $ npm run-script start
 
 ![](./img/19.png)
 
+* Create account —> 작성한 **이메일** 로 온 인증코드 입력 —> 로그인
+
+
+
+## Cognito 살펴보기
+
+![](./img/20.png)
+
+* AWS 콘솔 - 서비스 - Cognito 검색
+
+![](./img/21.png)
+
+* 사용자 풀 관리 클릭
+
+![](./img/22.png)
+
+* 우리가 만들어 둔 사용자 풀! 클릭합니다
+
+
+
+### 속성
+
+![](./img/23.png)
+
+* 왼쪽 메뉴에서 일반 설정 - 속성을 클릭합니다
+
+![](./img/24.png)
+
+* `amplify add auth`시 설정했던 사항들 확인 가능! (**변경 불가**)
+
+
+
+### 정책
+
+![](./img/25.png)
+
+* 왼쪽 메뉴에서 일반 설정 - 정책을 클릭합니다.
+
+
+
+![](./img/26.png)
+
+* 암호 강도, 사용자 가입 허용 여부 등을 설정할 수 있습니다.
+
+* 여러분들은 `사용자가 가입할 수 있도록 허용` 상태일 텐데요, 
+
+  ![](./img/28.png)
+
+  저는 `관리자만 사용자를 생성할 수 있도록 허용` 으로 바꿔보겠습니다!
+
+  콘솔에서 ` 변경 내용 저장` 을 누른 후, 터미널에서 `npm run-script start` 또는 `npm start` 를 실행해보겠습니다.
+
+* ![](./img/27.png)
+
+  위와 같이, `CREATE ACCOUNT` 버튼을 클릭하면 `A client attempted to write unauthorized attribute` 오류가 뜨는 것을 볼 수 있네요!
+
+
+
+### Creating The Serverless Backend Services
+
+```bash
+// 프로젝트의 루트 디렉토리에서
+$ amplify add api
+```
+
+* **? Please select from one of the below mentioned services**
+  * `REST` 선택
+* **? Provide a friendly name for your resource to be used as a label for this category in the project**
+  * `todoAPI` 입력
+* **? Provide a path (e.g., /items) **
+  * `Enter`
+* **? Choose a Lambda source**
+  * `Create a new Lambda function` (Enter)
+
+* **? Provide a friendly name for your resource to be used as a label for this category in the project**
+  * `todoLambda` 입력
+* **? Provide the AWS Lambda function name**
+  * `todo` 입력
+* **? Choose the function template that you want to use**
+  * `CRUD function for Amazon DynamoDB table (Integration … )` 선택
+* **? Choose a DynamoDB data source option**
+  * `Create a new DynamoDB table` 선택
+
+![](./img/29.png)
+
+
+
+#### NoSQL DynamoDB database wizard 
+
+로 진입했습니다! wizard를 사용해서 NoSQL 데이터베이스 테이블 세팅을 해 봅시다!
+
+
+
+* **? Please provide a friendly name for your resource that will be
+  used to label this category in the project**
+  * `todoTable` 입력
+* **? Please provide table name**
+  * `todo` 입력
+
+![](./img/30.png)
+
+
+
+테이블에 column을 추가 해 봅시다.
+
+
+
+* **? What would you like to name this column**
+  * `id`
+* **? Please choose the data type**
+  * `string`
+* **? Would you like to add another column?**
+  * `No`
+
+![](./img/31.png)
+
+
+
