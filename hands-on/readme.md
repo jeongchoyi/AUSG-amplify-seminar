@@ -91,6 +91,8 @@ $ amplify congifure
 
     ![](./img/15.png)
 
+  * DynamoDB
+
 * **정책 검토** 버튼을 클릭합니다
 
   * ![](./img/16.png)
@@ -323,6 +325,342 @@ $ amplify add api
   * `No`
 
 ![](./img/31.png)
+
+
+
+데이터베이스를 생성하기 전에, Primary key를 정해줍니다.
+
+> Primary key : 데이터베이스 설계자나 관리자는 여러 후보키 중에서 기본적으로 사용할 키를 반드시 선택해야 하는데 이것이 기본키(**primary key**)
+
+![](./img/32.png)
+
+
+
+그 후에 secondary indexes를 설정할거냐고 물어보는데, n을 입력 해 줍니다.
+
+![](./img/33.png)
+
+**Succesfully added DynamoDb table locally** 메세지가 나와야 합니다!
+
+
+
+Local lambda function 을 수정할거냐고 묻는데, n을 입력 해 줍니다.
+
+![](./img/34.png)
+
+
+
+API에 접근하는 것을 제한할지 묻는데,  y를 입력 후 아래와 같이 진행해줍니다.
+
+![](./img/35.png)
+
+> `a` 를 눌러 전체선택 해준 후 엔터를 눌러줍니다
+
+
+
+unauthenticated users, 즉 Guest 유저에게는 `read` 권한만 부여 해 줍니다.
+
+space 를 눌러서 선택 후 엔터를 눌러줍니다.
+
+![](./img/36.png)
+
+**Successfully updated auth resource locally** 메세지가 나와야 합니다!
+
+
+
+API에 다른 path를 추가할지 묻는데, n을 입력 해 줍니다.
+
+![](./img/37.png)
+
+**Successfully added resource todoAPI locally** 라는 메세지가 나오면 끝납니다!
+
+
+
+#### amplify add api
+
+`amplify add api`  라는 명령어로 REST API를 생성해 봤는데요, 이 API를 만들기 위해서 4가지 AWS
+
+서비스가 사용되었습니다! 그 4가지 서비스를 살펴보도록 할게요.
+
+
+
+1. Amazon DynamoDB
+   * NoSQL 데이터베이스로 제공됨
+   * ` todoTable` 리소스를 추가했을 때 `todo`라는 DynamoDB 테이블을 만듦
+   * `id`가 primary key인 3개의 columns
+2. AWS Lambda functions
+   * 서버관리나 프로비저닝 없이 코드를 실행할 수 있게 해줌
+   * DynamoDB 테이블에서 CRUD 동작이 일어나는 부분
+3. Amazon Cognito
+   * authentication , user management 를 위해 필요
+   * 회원가입, 로그인, 접근 제한
+4. Amazon API Gateway
+   * REST API endpoint를 만들게 해 줌
+   * path가 `item` 인 리소스! 이름은 `todoApi`
+
+
+
+####  권한 추가
+
+Lambda, Cognito는 아까 IAM 권한을 추가 해 줬는데, DynamoDB와 API Gateway는 추가해 주지 않은 상태입니다! 아까와 같은 방식으로 추가 해 줍니다
+
+
+
+* DynamoDB
+
+![](./img/39.png)
+
+* API Gateway
+
+![](./img/40.png)
+
+* 요약의 내용이 아래와 같은지 확인합니다.
+
+![](./img/41.png)
+
+
+
+그런데, 지금 이런 서비스들의 세부사항이 클라우드에 올라가지 않은 상태입니다.
+
+먼저, 명령어 `amplify status`를 실행합니다. 
+
+> amplify 프로젝트에 대한 정보를 표로 보여줍니다
+
+![](./img/38.png)
+
+> API set up 과정에서 설정한 정보들은
+>
+> 프로젝트 root 폴더에서 amplify/backend/function/todoLambda/src/app.js 에서 확인 및 수정이 가능합니다!
+
+
+
+Operation에 Create, Update 등 클라우드에 반영되지 않은 내용을 확인할 수 있습니다!
+
+(클라우드와 비교해 변화가 없다면 No Change로 표시됩니다.)
+
+
+
+`amplify push` 명령어로 클라우드에도 반영해 줍니다. (y를 눌러줍니다)
+
+
+
+### Building The Frontend
+
+`amplify push` 명령어가 정상적으로 수행됐다면, **src** 폴더에 **aws-exports.js** 파일이 생긴 것을 보실 수 있습니다!
+
+이 파일은 클라우드에 생성된 리소스들의 정보를 담고 있어요. push 명령어가 수행될 때 마다 업데이트됩니다.
+
+이 파일은 JavaScript 프로젝트를 위해 만들어진 파일이고, Amplify JavaScript library에서 사용됩니다.
+
+이 파일을 사용해서 React 프로젝트를 만들어 봅시다!
+
+
+
+#### public/index.html 파일을 열어줍니다
+
+**\<head> 와 \</head> 사이에** 아래 코드를 복사 해 붙여넣어 줍니다.
+
+```html
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+  integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+  integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+  crossorigin="anonymous"
+></script>
+```
+
+* Bootstrap을 사용합니다!
+
+
+
+#### src/List.js 파일을 만들어줍니다
+
+```javascript
+import React from "react";
+export default props => (
+  <div>
+    <legend>List</legend>
+    <div className="card" style={{ width: "25rem" }}>
+      {renderListItem(props.list, props.loadDetailsPage)}
+    </div>
+  </div>
+);
+function renderListItem(list, loadDetailsPage) {
+  const listItems = list.map(item => (
+    <li
+      key={item.id}
+      className="list-group-item"
+      onClick={() => loadDetailsPage(item.id)}
+    >
+      {item.title}
+    </li>
+  ));
+  return <ul className="list-group list-group-flush">{listItems}</ul>;
+}
+```
+
+* 위 코드를 복사 후 붙여넣기 해 만들어주세요!
+
+* API에서 item들의 리스트를 render 해 올 컴포넌트입니다
+
+
+
+#### src/Details.js 파일을 만들어줍니다
+
+```javascript
+import React from "react";
+export default props => (
+  <div>
+    <h2>Details</h2>
+    <div className="btn-group" role="group">
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={props.loadListPage}
+      >
+        Back to List
+      </button>
+      <button
+        type="button"
+        className="btn btn-danger"
+        onClick={() => props.delete(props.item.id)}
+      >
+        Delete
+      </button>
+    </div>
+    <legend>{props.item.title}</legend>
+    <div className="card">
+      <div className="card-body">{props.item.content}</div>
+    </div>
+  </div>
+);
+```
+
+* 삭제 버튼, 목록 버튼, item의 세부사항을 표시해주는 컴포넌트입니다
+
+
+
+#### src/App.js 파일을 열고 덮어 써 줍니다
+
+```javascript
+import React, { Component } from "react";
+import List from "./List";
+import Details from "./Details";
+import Amplify, { API } from "aws-amplify";
+import aws_exports from "./aws-exports";
+import { withAuthenticator } from "aws-amplify-react";
+Amplify.configure(aws_exports);
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: "",
+      title: "",
+      list: [],
+      item: {},
+      showDetails: false
+    };
+  }
+  async componentDidMount() {
+    await this.fetchList();
+  }
+  handleChange = event => {
+    const id = event.target.id;
+    this.setState({ [id]: event.target.value });
+  };
+  handleSubmit = async event => {
+    event.preventDefault();
+    await API.post("todosApi", "/items", {
+      body: {
+        id: Date.now().toString(),
+        title: this.state.title,
+        content: this.state.content
+      }
+    });
+    this.setState({ content: "", title: "" });
+    this.fetchList();
+  };
+  async fetchList() {
+    const response = await API.get("todosApi", "/items");
+    this.setState({ list: [...response] });
+  }
+  loadDetailsPage = async id => {
+    const response = await API.get("todosApi", "/items/" + id);
+    this.setState({ item: { ...response }, showDetails: true });
+  };
+  loadListPage = () => {
+    this.setState({ showDetails: false });
+  };
+  delete = async id => {
+    //TODO: Implement functionality
+  };
+  render() {
+    return (
+      <div className="container">
+        <form onSubmit={this.handleSubmit}>
+          <legend>Add</legend>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              placeholder="Title"
+              value={this.state.title}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="content">Content</label>
+            <textarea
+              className="form-control"
+              id="content"
+              placeholder="Content"
+              value={this.state.content}
+              onChange={this.handleChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+        <hr />
+        {this.state.showDetails ? (
+          <Details
+            item={this.state.item}
+            loadListPage={this.loadListPage}
+            delete={this.delete}
+          />
+        ) : (
+          <List list={this.state.list} loadDetailsPage={this.loadDetailsPage} />
+        )}
+      </div>
+    );
+  }
+}
+export default withAuthenticator(App, true);
+```
+
+
+
+`npm start`
+
+![](./img/42.png)
 
 
 
