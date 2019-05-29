@@ -91,7 +91,7 @@ $ amplify congifure
 
     ![](./img/15.png)
 
-  * DynamoDB
+    
 
 * **정책 검토** 버튼을 클릭합니다
 
@@ -118,7 +118,7 @@ $ amplify congifure
 
 ### install Amplify
 
-* `command + C`
+* `ctrl + C`
 
 * react app의 root directory에서
 
@@ -178,8 +178,11 @@ $ amplify push
 * **src/index.js** 수정
 
   ```react
+  //파일의 맨 위에 추가
   import Amplify from 'aws-amplify'
   import config from './aws-exports'
+  
+  //import 구문들 아래에
   Amplify.configure(config)
   ```
 
@@ -192,7 +195,7 @@ $ amplify push
   import { withAuthenticator } from 'aws-amplify-react'
   
   //파일의 맨 밑 줄 대체
-  export default withAuthenticator(App)
+  export default withAuthenticator(App);
   ```
 
 
@@ -268,6 +271,8 @@ $ npm run-script start
 
 
 
+## Backend
+
 ### Creating The Serverless Backend Services
 
 ```bash
@@ -279,7 +284,7 @@ $ amplify add api
   * `REST` 선택
 * **? Provide a friendly name for your resource to be used as a label for this category in the project**
   * `todoAPI` 입력
-* **? Provide a path (e.g., /items) **
+* **? Provide a path (e.g., /items)**
   * `Enter`
 * **? Choose a Lambda source**
   * `Create a new Lambda function` (Enter)
@@ -376,7 +381,7 @@ API에 다른 path를 추가할지 묻는데, n을 입력 해 줍니다.
 
 
 
-#### amplify add api
+### amplify add api
 
 `amplify add api`  라는 명령어로 REST API를 생성해 봤는데요, 이 API를 만들기 위해서 4가지 AWS
 
@@ -400,7 +405,7 @@ API에 다른 path를 추가할지 묻는데, n을 입력 해 줍니다.
 
 
 
-####  권한 추가
+### 권한 추가
 
 Lambda, Cognito는 아까 IAM 권한을 추가 해 줬는데, DynamoDB와 API Gateway는 추가해 주지 않은 상태입니다! 아까와 같은 방식으로 추가 해 줍니다
 
@@ -441,6 +446,8 @@ Operation에 Create, Update 등 클라우드에 반영되지 않은 내용을 �
 
 
 `amplify push` 명령어로 클라우드에도 반영해 줍니다. (y를 눌러줍니다)
+
+
 
 
 
