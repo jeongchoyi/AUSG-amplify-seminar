@@ -401,7 +401,7 @@ API에 다른 path를 추가할지 묻는데, n을 입력 해 줍니다.
    * 회원가입, 로그인, 접근 제한
 4. Amazon API Gateway
    * REST API endpoint를 만들게 해 줌
-   * path가 `item` 인 리소스! 이름은 `todoApi`
+   * path가 `item` 인 리소스! 이름은 `todoAPI`
 
 
 
@@ -592,7 +592,7 @@ class App extends Component {
   };
   handleSubmit = async event => {
     event.preventDefault();
-    await API.post("todosApi", "/items", {
+    await API.post("todoAPI", "/items", {
       body: {
         id: Date.now().toString(),
         title: this.state.title,
@@ -603,11 +603,11 @@ class App extends Component {
     this.fetchList();
   };
   async fetchList() {
-    const response = await API.get("todosApi", "/items");
+    const response = await API.get("todoAPI", "/items");
     this.setState({ list: [...response] });
   }
   loadDetailsPage = async id => {
-    const response = await API.get("todosApi", "/items/" + id);
+    const response = await API.get("todoAPI", "/items/" + id);
     this.setState({ item: { ...response }, showDetails: true });
   };
   loadListPage = () => {
