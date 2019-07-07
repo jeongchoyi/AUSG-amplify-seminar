@@ -22,20 +22,19 @@ $ amplify congifure
 
   * ![](./img/1.png)
     
-
-  * ![](./img/2.png)
-
-    
-
-  * **다음** - **다음** - **사용자 만들기** 클릭
-
+* ![](./img/2.png)
+  
+  
+  
+* **다음** - **다음** - **사용자 만들기** 클릭
   
 
-  * 빨간 네모 안의 내용들을 `.csv 다운로드` 하거나, 창을 그대로 놔두고 터미널로 이동합니다!
+  
+* 빨간 네모 안의 내용들을 `.csv 다운로드` 하거나, 창을 그대로 놔두고 터미널로 이동합니다!
     ![](./img/3.png)
-
-    
-
+  
+  
+  
 * 터미널에서
 
   * `Enter`
@@ -124,7 +123,6 @@ $ amplify congifure
 
 * ```bash
   $ npm install --save aws-amplify
-  $ npm install --save aws-amplify-react
   ```
 
 
@@ -142,7 +140,6 @@ $ amplify congifure
 
   ![](./img/18.png)
   
-
 * **? Do you want to use an AWS profile?** (Y/n)를 물으면 **Y** 입력 후 엔터
 
 * **ausg-amplify** 선택
