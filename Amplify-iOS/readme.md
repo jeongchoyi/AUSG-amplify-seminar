@@ -1,3 +1,19 @@
+## npm 설치
+
+[node.js](https://nodejs.org/en/download/) 와 [npm](https://www.npmjs.com/get-npm)이 미리 설치가 되어있어야합니다!
+
+```
+$ node --version // 8.10.0 이상 필요
+v8.10.0
+$ npm --version // 5.2 이상 필요
+6.9.0
+$ aws --version
+//aws cli가 설치가 되어 있지 않으신 분들은 아래에서 같이 설치를 진행하도록 하겠습니다
+aws-cli/1.16.163 Python/2.7.10 Darwin/18.5.0 botocore/1.12.153
+```
+
+
+
 ## 프로젝트 만들기
 
 ![](./img/1-1.png)
@@ -18,7 +34,7 @@ xcode에서 **Single View App** 을 만들어줍니다
 
 ```bash
 $ npm install -g @aws-amplify/cli
-$ amplify congifure
+$ amplify configure
 ```
 
 
@@ -54,6 +70,7 @@ $ amplify congifure
   - ![](./img/4.png)
     - `accessKeyId`에는  `액세스 키 ID`, `secretAccessKey`에는 `비밀 액세스 키`를 넣어주세요.
     - 새 유저가 만들어졌습니다!
+  - 만약 **This would update/create the AWS Profile in your local machine** 이라는 문구가 뜨면 `ausg-amplify`를 한번 더 입력해주세요.
 
 
 
@@ -120,11 +137,10 @@ $ amplify congifure
 
 - `ctrl + C`
 
-- react app의 root directory에서
+- ios project의 root directory에서
 
 - ```bash
   $ npm install --save aws-amplify
-  $ npm install --save aws-amplify-react
   ```
 
 
@@ -158,8 +174,12 @@ $ amplify add auth
   - **Default configuration** 선택
 - **How do you want users to be able to sign in when using your Cognito User Pool?**
   - **Username** 선택
+- **Do you want to configure advanced settings? (Use arrow keys)**
+  - **Yes, I want to make some additional changes.** 선택
 - **What attributes are required for signing up?**
   - **Email** 선택
+- **Do you want to enable any of the following capabilities?** 
+  - `Enter`
 
 
 
@@ -180,7 +200,7 @@ $ pod init
 
 
 
-* Podfile 수정
+* Podfile 수정 (텍스트 편집기로 열어주세요)
 
   ```
   # Uncomment the next line to define a global platform for your project
@@ -200,8 +220,10 @@ $ pod init
 
 
 
-```
-pod install
+Podfile 저장 후 
+
+```bash
+$ pod install
 ```
 
 ![](./img/99.png)
@@ -210,7 +232,9 @@ pod install
 
 ### Add awsconfiguration.json to project
 
-iosAmplify.xcodeproj 파일을 열어줍니다
+xcode에서 iosAmplify.xcodeproj 파일을 추가해줍니다
+
+**iosAmplify.xcodeproj가 아닌 iosAmplify.xcworkspace 로 열어주세요! (Cocoapods를 사용하기 때문)**
 
 ![](./img/100.png)
 
@@ -224,7 +248,10 @@ iosAmplify.xcodeproj 파일을 열어줍니다
 
 AppDelegate.swift 파일을 열어줍니다.
 
+> AppDelegate가 무슨 파일인지는 [여기](https://zeddios.tistory.com/218) 를 참고해주세요.
+
 ```swift
+//import문 추가
 import AWSMobileClient
 ```
 
@@ -419,7 +446,18 @@ Confirmation code가 담긴 이메일을 확인해주세요.
 
 
 
-**터미널에서 amplify delete 를 해 준 후, 위의 amplify configure ~ amplify init 부분을 동일하게 수행 해주신 후 돌아와주세요!**
+### 기존 프로젝트에서 amplify 제거하기
+
+```bash
+$ amplify delete
+```
+
+* **Are you sure you want to continue?(This would delete all the environments of the project from the cloud and wipe out all the local amplify resource files)**
+  * y 입력
+
+
+
+**위의 amplify configure ~ amplify init 부분을 동일하게 수행 해주신 후 돌아와주세요!**
 
 
 
@@ -427,7 +465,13 @@ Confirmation code가 담긴 이메일을 확인해주세요.
 
 ![](./img/127.png)
 
-순서대로 화면과 같이 선택해준 후 프로젝트 이름을 적어주세요.
+* **Do you want to use the default authentication and security configuration?**
+  * **Manual configuration** 선택
+* **Select the authentication/authorization services that you want to use:**
+  * **User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per-user Storage features for images or other content, Analytics, and more)** 선
+* **Please provide a friendly name for your resource that will be used to label thi**
+  **s category in the project:**
+  * 프로젝트 이름을 적어주세요.
 
 
 
@@ -451,7 +495,8 @@ Allow unauthenticated logins? 를 물어보면 Yes를 선택해주세요.
 
 ![](./img/140.png)
 
-앱 ID를 입력하라는 질문이 나오면 이 부분을 복사해서 붙여넣기 해주세요.
+*  **Enter your Facebook App ID for your identity pool**
+  * 앱 ID를 입력하라는 질문이 나오면 이 부분을 복사해서 붙여넣기 해주세요.
 
 
 
@@ -463,7 +508,16 @@ user pool의 이름을 지어주세요.
 
 ![](./img/134.png)
 
-위와 같이 입력해주신 후 OAuth를 물어보면 No라고 답해주세요.
+위와 같이 입력해주신 후
+
+* **Do you want to enable any of the following capabilities?**
+  * `Enter` 클릭
+*  **Do you want to use an OAuth flow?**
+  * **no** 입력
+* **Do you want to configure Lambda Triggers for Cognito?**
+  * **no** 입력
+
+
 
 ![](./img/135.png)
 
@@ -493,6 +547,22 @@ Info.plist를 Source Code로 열어주세요.
 
 스크롤을 내려 이 부분을 복사해주세요.
 
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+  <key>CFBundleURLSchemes</key>
+  <array>
+    <string>fb2450365608340261</string>
+  </array>
+  </dict>
+</array>
+<key>FacebookAppID</key>
+<string>2450365608340261</string>
+<key>FacebookDisplayName</key>
+<string>iosAmplify</string>
+```
+
 
 
 ![](./img/141.png)
@@ -507,6 +577,18 @@ Info.plist를 Source Code로 열어주세요.
 
 아까 복사한 부분 바로 밑의 3번 코드를 복사해줍니다.
 
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>fbapi</string>
+  <string>fb-messenger-api</string>
+  <string>fbauth2</string>
+  <string>fbshareextension</string>
+</array>
+```
+
+
+
 ![](./img/145.png)
 
 아까와 같이 \<dict> 밑에 붙여넣기 해줍니다.
@@ -519,11 +601,19 @@ Info.plist를 Source Code로 열어주세요.
 
 Podfile에 드래그된 한 줄을 추가 해주세요.
 
+```
+pod 'AWSFacebookSignIn'
+```
+
+
+
 ![](./img/148.png)
 
 pod install을 해주세요
 
 
+
+xcode 프로젝트를 닫았다가 다시 열어주신 후,
 
 ![](./img/149.png)
 
